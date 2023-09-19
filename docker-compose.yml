@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+   backend:
+      container_name: django-container
+      build: .
+      volumes:
+         - .:/app
+      ports:
+         - '8000:8000'
+      depends_on:
+         - db
+      env_file:
+         - .env
+   db:
+      container_name: postgres-container
+      image: postgres
+      restart: always
+      environment:
+         - POSTGRES_PASSWORD=password
+         - POSTGRES_USER=user
+         - POSTGRES_DB=django
+      ports:
+         - '5432:5432'
+      volumes:
+         - postgresdb:/var/lib/postgresql
+volumes:
+   postgresdb:
